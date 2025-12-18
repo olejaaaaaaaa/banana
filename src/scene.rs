@@ -1,18 +1,13 @@
 use std::collections::HashMap;
-
-use crate::{GameObject, Material, Renderable};
-
-
-
+use crate::GameObject;
+use crate::Renderable;
 
 #[repr(C)]
-struct Camera {
+pub struct Camera {
     view: [[f32; 4]; 4],
     proj: [[f32; 4]; 4],
     pos:  [f32; 4]
 }
-
-
 
 pub struct Scene {
     pub camera: Camera,

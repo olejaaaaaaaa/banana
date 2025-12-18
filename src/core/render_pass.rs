@@ -1,7 +1,7 @@
 use crate::{Subpass, SubpassDesc, VulkanResult};
 use ash::vk;
 use log::debug;
-use crate::device::Device;
+use crate::core::device::Device;
 
 pub struct RenderPass {
     pub(crate) raw: vk::RenderPass,

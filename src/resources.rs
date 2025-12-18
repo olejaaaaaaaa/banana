@@ -1,7 +1,7 @@
 
 use std::collections::HashMap;
 use slotmap::*;
-use crate::PipelineLayout;
+use crate::core::PipelineLayout;
 
 new_key_type! { pub struct LayoutHandle; }
 

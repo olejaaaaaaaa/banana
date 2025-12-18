@@ -8,11 +8,11 @@ new_key_type! {
     pub struct FrameBufferHandle;
 }
 
-use crate::{CommandPoolBuilder, Device, FrameBuffer, GraphicsPipeline, LayoutHandle, RenderContext, Renderable, Scene};
+use crate::{RenderContext, Renderable, Scene, resources::*};
+use crate::core::{CommandPoolBuilder, Device, FrameBuffer, GraphicsPipeline};
+
 type Execute = dyn Fn(&PassContext, &[Renderable]);
 type Setup = dyn Fn();
-
-
 
 pub struct PassContext<'a> {
     resolution: vk::Extent2D,

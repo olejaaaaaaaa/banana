@@ -1,6 +1,6 @@
 use ash::vk;
 
-use crate::{Device, VulkanError, VulkanResult, frame_buffer};
+use crate::{Device, VulkanError, VulkanResult};
 
 pub struct FrameBuffer {
     pub(crate) raw: vk::Framebuffer,

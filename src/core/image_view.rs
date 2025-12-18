@@ -1,6 +1,6 @@
 
 use ash::vk;
-use crate::{VulkanError, VulkanResult, device::Device};
+use crate::{VulkanError, VulkanResult, core::device::Device};
 
 
 pub struct ImageView {

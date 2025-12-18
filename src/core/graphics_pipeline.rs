@@ -3,7 +3,7 @@
 use std::path::Path;
 
 use ash::vk;
-use crate::{ShaderBuilder, ShaderModule, VulkanError, VulkanResult, device::Device};
+use crate::{ShaderBuilder, ShaderModule, VulkanError, VulkanResult, core::device::Device};
 
 pub struct GraphicsPipeline {
     pub raw: vk::Pipeline

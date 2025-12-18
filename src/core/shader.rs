@@ -1,5 +1,5 @@
 use std::{error::Error, io::Read, path::Path};
-use crate::{VulkanError, VulkanResult, device::Device};
+use crate::{VulkanError, VulkanResult, core::device::Device};
 use ash::vk;
 
 pub struct ShaderModule {

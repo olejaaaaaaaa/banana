@@ -1,5 +1,5 @@
 
-use crate::{VulkanResult, device::Device};
+use crate::{VulkanResult, core::device::Device};
 use ash::vk;
 use vk_mem::Alloc;
 
