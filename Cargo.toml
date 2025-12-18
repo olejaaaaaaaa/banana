@@ -1,0 +1,21 @@
+[package]
+name = "banan"
+version = "0.1.0"
+edition = "2024"
+build = "build.rs"
+
+[dependencies]
+ash = "0.38.0"
+ash-window = "0.13.0"
+env_logger = "0.11.8"
+log = "0.4.29"
+puffin = "0.19.1"
+slotmap = "1.1.1"
+thiserror = "2.0.17"
+vk-mem = "0.5.0"
+vk-sync = "0.1.6"
+winit = { version = "0.30.12", features = ["rwh_06"]}
+
+[features]
+default = ["runtime-check"]
+runtime-check = []
