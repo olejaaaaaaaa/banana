@@ -56,9 +56,17 @@ pub use graphics_pipeline::*;
 mod semaphore;
 pub use semaphore::*;
 
+mod descriptor_set_layout;
+pub use descriptor_set_layout::*;
 
 mod fence;
 pub use fence::*;
+
+mod sampler;
+pub use sampler::*;
+
+mod descriptor_pool;
+pub use descriptor_pool::*;
 
 mod types;
 pub use types::*;

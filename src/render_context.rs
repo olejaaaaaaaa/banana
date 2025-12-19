@@ -22,12 +22,12 @@ pub struct WindowManager {
     pub(crate) resolution: vk::Extent2D,
     pub(crate) frame_sync: Vec<FrameSync>,
     pub(crate) frame_buffers: Vec<FrameBuffer>,
-    image_views: Vec<ImageView>,
+    pub(crate) image_views: Vec<ImageView>,
     pub(crate) current_frame: usize,
-    depth_image: Image,
-    depth_view: ImageView,
+    pub(crate) depth_image: Image,
+    pub(crate) depth_view: ImageView,
     pub(crate) render_pass: RenderPass,
-    surface: Surface,
+    pub(crate) surface: Surface,
     pub(crate) swapchain: Swapchain,
 }
 

@@ -45,8 +45,8 @@ impl<'a> FrameBufferBuilder<'a> {
         self
     }
 
-    pub fn render_pass(mut self, pass: &vk::RenderPass) -> Self {
-        self.create_info = self.create_info.render_pass(*pass);
+    pub fn render_pass(mut self, pass: vk::RenderPass) -> Self {
+        self.create_info = self.create_info.render_pass(pass);
         self
     }
 

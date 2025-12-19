@@ -9,6 +9,12 @@ use winit::{
 mod world_renderer;
 pub use world_renderer::*;
 
+mod transforms;
+pub use transforms::*;
+
+mod aabb;
+pub use aabb::*;
+
 mod render_context;
 pub use render_context::*;
 
@@ -27,14 +33,18 @@ pub use render_graph::*;
 mod resources;
 pub use resources::*;
 
-mod simple;
-pub use simple::*;
-
 mod scene;
 pub use scene::*;
 
 mod core;
 pub use core::*;
+
+mod renderer;
+pub use renderer::*;
+
+mod descriptor_manager;
+pub use descriptor_manager::*;
+
 
 fn main() {
 
@@ -49,11 +59,11 @@ fn main() {
     let event_loop = winit::event_loop::EventLoopBuilder::new().build().unwrap();
     let window = event_loop.create_window(
         WindowAttributes::new()
-            .with_fullscreen(
-                Some(
-                    winit::window::Fullscreen::Borderless(None)
-                )
-            )
+            // .with_fullscreen(
+            //     Some(
+            //         winit::window::Fullscreen::Borderless(None)
+            //     )
+            // )
     ).unwrap();
     
     let mut world = WorldRenderer::new(&window);

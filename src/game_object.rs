@@ -1,8 +1,9 @@
 use std::{any::Any, sync::Weak};
 
+#[repr(C)]
 #[derive(Clone, Copy)]
 struct PushConstants {
-
+    transform_idx: u32
 }
 
 #[derive(Clone)]
@@ -11,8 +12,10 @@ pub struct Material {
     push: PushConstants
 }
 
-struct Transform {
-
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct Transform {
+    pub scale: [f32; 3]
 }
 
 pub struct GameObject {

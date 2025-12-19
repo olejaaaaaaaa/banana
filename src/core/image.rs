@@ -44,6 +44,32 @@ impl<'a> ImageBuilder<'a> {
         }
     }
 
+    pub fn new_2d(device: &'a Device, format: vk::Format, extent: vk::Extent2D) -> Self {
+        Self { 
+            device,
+            create_info: vk::ImageCreateInfo::default()
+                .mip_levels(1)
+                .initial_layout(vk::ImageLayout::UNDEFINED)
+                .extent(extent.into())
+                .format(format)
+                .tiling(vk::ImageTiling::OPTIMAL)
+                .samples(vk::SampleCountFlags::TYPE_1)
+                .array_layers(1)
+                .sharing_mode(vk::SharingMode::EXCLUSIVE)
+                .usage(vk::ImageUsageFlags::COLOR_ATTACHMENT)
+                .image_type(vk::ImageType::TYPE_2D), 
+            alloc_info: vk_mem::AllocationCreateInfo {
+                usage: vk_mem::MemoryUsage::AutoPreferDevice,
+                ..Default::default()
+            } 
+        }
+    }
+
+    pub fn usage(mut self, usage: vk::ImageUsageFlags) -> Self {
+        self.create_info = self.create_info.usage(usage);
+        self
+    }
+
     pub fn build(self) -> VulkanResult<Image> {
         let (image, allocation) = unsafe { 
             self.device.allocator.create_image(&self.create_info, &self.alloc_info).unwrap() 
