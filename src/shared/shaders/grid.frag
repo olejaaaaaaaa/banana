@@ -5,7 +5,7 @@ layout(location = 0) out vec4 outColor;
 
 void main() {
 
-    float scale = 20.0;
+    float scale = 5.0;
     vec2 grid = fract(fragUV.xy * scale);
     
     float lineWidth = 0.02;
