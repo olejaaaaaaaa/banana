@@ -1,6 +1,8 @@
+use std::path::Path;
+
 use ash::vk;
 
-use crate::{DescriptorSetLayoutBuilder, FrameBufferHandle, GraphicsPipelineBuilder, PassBuilder, PassContext, Pipeline, PipelineLayoutBuilder, RenderContext, RenderGraphBuilder, RenderTarget, ResourceManager, VulkanResult};
+use crate::{DescriptorSetLayoutBuilder, FrameBufferHandle, GraphicsPipelineBuilder, PassBuilder, PassContext, Pipeline, PipelineCache, PipelineLayoutBuilder, RenderContext, RenderGraphBuilder, RenderTarget, ResourceManager, VulkanResult};
 
 
 
@@ -82,6 +84,20 @@ impl<'a> FinalRendererBuilder<'a> {
                 *frame
             );
         }
+
+        let mut use_cache = false;
+
+        let cache = match PipelineCache::from_file(device, Path::new(r"src\cache\final.bin")) {
+            Ok(cache) => {
+                log::info!("Use cache!!!!");
+                use_cache = true;
+                cache
+            },
+            Err(_) => {
+                log::info!("Don't use cache!!!");
+                PipelineCache::new(device).unwrap()
+            }
+        };
     
         let pipeline = GraphicsPipelineBuilder::new(&device)
             .vertex_shader_from_file(r"src\shared\shaders\spv\final-vert.spv")
@@ -139,6 +155,11 @@ impl<'a> FinalRendererBuilder<'a> {
                 vk::DynamicState::SCISSOR
             ])
             .build()?;
+
+        if !use_cache {
+            cache.save_to_file(device, Path::new(r"src\cache\final.bin")).unwrap();
+            log::info!("Save cache!!!");
+        }
 
         let layout = self.res.add_layout(layout);
 

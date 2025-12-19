@@ -1,7 +1,9 @@
 
+use std::path::Path;
+
 use ash::vk;
 
-use crate::{AttributeDescriptions, BindingDescriptions, FrameBufferHandle, GraphicsPipelineBuilder, LayoutHandle, PassBuilder, PassContext, Pipeline, PipelineLayoutBuilder, RenderContext, RenderGraphBuilder, RenderTarget, ResourceManager, Vertex};
+use crate::{AttributeDescriptions, BindingDescriptions, FrameBufferHandle, GraphicsPipelineBuilder, LayoutHandle, PassBuilder, PassContext, Pipeline, PipelineCache, PipelineLayoutBuilder, RenderContext, RenderGraphBuilder, RenderTarget, ResourceManager, Vertex};
 
 pub struct SimpleRenderer {
     pub frame_buffer: Option<FrameBufferHandle>,
@@ -34,8 +36,23 @@ impl SimpleRenderer {
             ])
             .build()
             .unwrap();
+
+        let mut use_cache = false;
+
+        let cache = match PipelineCache::from_file(&ctx.device, Path::new(r"src\cache\simple.bin")) {
+            Ok(cache) => {
+                log::info!("Use cache!!!!");
+                use_cache = true;
+                cache
+            },
+            Err(_) => {
+                log::info!("Don't use cache!!!");
+                PipelineCache::new(&ctx.device).unwrap()
+            }
+        };
     
         let pipeline = GraphicsPipelineBuilder::new(&ctx.device)
+            .cache(cache.raw)
             .vertex_shader_from_file(r"src\shared\shaders\spv\base_simple-vert.spv")
             .fragment_shader_from_file(r"src\shared\shaders\spv\base_simple-frag.spv")
             .render_pass(ctx.window.render_pass.raw)
@@ -91,6 +108,11 @@ impl SimpleRenderer {
             ])
             .build()
             .unwrap();
+
+        if !use_cache {
+            cache.save_to_file(&ctx.device, Path::new(r"src\cache\simple.bin")).unwrap();
+            log::info!("Save cache!!!");
+        }
 
         let layout = res.cache_layout("Layout 1", layout);
 

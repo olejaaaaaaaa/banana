@@ -1,8 +1,10 @@
 
 
+use std::path::Path;
+
 use ash::vk;
 
-use crate::{AttributeDescriptions, BindingDescriptions, FrameBufferHandle, GraphicsPipelineBuilder, LayoutHandle, PassBuilder, PassContext, Pipeline, PipelineLayoutBuilder, RenderContext, RenderGraphBuilder, RenderTarget, ResourceManager, Vertex};
+use crate::{AttributeDescriptions, BindingDescriptions, FrameBufferHandle, GraphicsPipelineBuilder, LayoutHandle, PassBuilder, PassContext, Pipeline, PipelineCache, PipelineLayoutBuilder, RenderContext, RenderGraphBuilder, RenderTarget, ResourceManager, Vertex};
 
 
 pub struct GridRenderer {
@@ -27,8 +29,23 @@ impl GridRenderer {
             .blend_enable(false);
 
         let (layout, layout_handle) = res.get_layout_from_cache("Layout 1").unwrap();
+
+        let mut use_cache = false;
+
+        let cache = match PipelineCache::from_file(&ctx.device, Path::new(r"src\cache\grid.bin")) {
+            Ok(cache) => {
+                log::info!("Use cache!!!!");
+                use_cache = true;
+                cache
+            },
+            Err(_) => {
+                log::info!("Don't use cache!!!");
+                PipelineCache::new(&ctx.device).unwrap()
+            }
+        };
     
         let pipeline = GraphicsPipelineBuilder::new(&ctx.device)
+            .cache(cache.raw)
             .vertex_shader_from_file(r"src\shared\shaders\spv\grid-vert.spv")
             .fragment_shader_from_file(r"src\shared\shaders\spv\grid-frag.spv")
             .render_pass(ctx.window.render_pass.raw)
@@ -84,6 +101,11 @@ impl GridRenderer {
             ])
             .build()
             .unwrap();
+
+        if !use_cache {
+            cache.save_to_file(&ctx.device, Path::new(r"src\cache\grid.bin")).unwrap();
+            log::info!("Save cache!!!");
+        }
 
         if offscreen {
 

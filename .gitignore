@@ -1,2 +1,3 @@
 /target
-/src/shader/shaders/spv/*
+/src/cache
+/src/shader/shaders/spv
